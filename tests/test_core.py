@@ -13,6 +13,7 @@ NUM_ROW = 10
 NUM_PQ_FILES = 3
 IDX_COLS = ["a", "b"]
 DATA_COLUMNS = [f"x{i}" for i in range(NUM_PQ_FILES)]
+ALIAS_COLUMNS = DATA_COLUMNS
 BASE_PATH = "gs://andrew-scratch-bucket/tmp"
 OUTPUT_PATH = join(BASE_PATH, "pqbq-test.parquet")
 FILENAMES = [f"df{i}.parquet" for i in range(NUM_PQ_FILES)]
@@ -33,16 +34,12 @@ def make_test_data():
 
 
 def test_make_dataset_runs():
-    columns_select = [[c] for c in DATA_COLUMNS]
-    bq_table_names = [f"table{i}" for i in range(NUM_PQ_FILES)]
-
-    pq_items = [pbj.ParquetItem(p, c, t) for (p, c, t) in zip(DATA_PATHS, columns_select, bq_table_names)]
     bqj = pbj.BQJoiner(
-        parquet_items=pq_items,
+        pq_paths=DATA_PATHS,
+        suffixes=("",)*len(DATA_PATHS),
         join_cols=IDX_COLS,
         gcp_project="figure-development-data",
         bq_dataset="plnet",
-        dest_table="tmp",
         drop_tables_before_run=True
     )
     bqj.make_dataset(output_path=OUTPUT_PATH)
