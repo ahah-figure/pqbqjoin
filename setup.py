@@ -12,9 +12,12 @@ setup(
     package_data={
         "": ["*.sh", "*.yaml"]
     },
-    install_requires=[],
+    install_requires=[
+        "dask[complete]>=2021.8.1",
+        "pyarrow",
+        "gcsfs",
+    ],
     tests_require=[
-        "dask",
         "numpy",
         "pandas",
         "pytest"
