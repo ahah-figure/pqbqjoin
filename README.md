@@ -10,7 +10,7 @@ To join parquet files, we do the following:
 2. Join the temporary tables in BigQuery on the join columns you specify.
 3. Write the joined output to the cloud storage bucket you specify.
 
-The 'BQJoiner' class does all the work. The parameters are
+The `BQJoiner` class does all the work. The parameters are
 
 * **pq_paths**: List of parquet files to join.
 * **suffixes**: Suffixes to append to each column from each parquet file. This is mandatory because
