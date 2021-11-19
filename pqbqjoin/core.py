@@ -22,16 +22,25 @@ def _random_str() -> str:
 @dataclass
 class ParquetItem:
     """
+    Representation of parquet dataset.
+
     Parameters
     ----------
-    data_path: path to parquet file
-        Must be like gs://
+    data_path: str
+        Path to parquet file. Must be like gs://
+    idx_cols: [str]
+        Columns to use as index.
+    suffix: str
+        Suffix to append to each column in the file.
 
     Attributes
     ----------
-    columns_select: columns to select, excluding idx cols
-    columns_alias: aliases for columns_select
-    bq_table_name: table destination for parquet data
+    columns_select: [str]
+        Columns to select, excluding idx cols.
+    columns_alias: [str]
+        Aliases for columns_select
+    bq_table_name: str
+        Table destination for parquet data
     """
     data_path: str
     idx_cols: Sequence[str]
@@ -55,6 +64,8 @@ def _sh_run(cmd: str) -> None:
 # pylint: disable=R0903
 class BQJoiner:
     """
+    Join parquet files in BigQuery and write the output to a parquet file.
+
     Process
     -------
     1. Take a set of parquet files, upload them to separate tables in BQ.
